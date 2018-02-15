@@ -130,63 +130,17 @@ petit test de contrôle :  tape dans le terminal : <br/>
 `rails c`
 et 
 `Tweet.new("Salut, toi!").perform`<br/>
-### 5 Le formulaire 
-Ensuite on va donner une interface à notre application, en créant un formulaire (qui va prendre notre ‘content’ et le submit sur twitter) 
-Pour cela on va avoir besoin de note controller (tweet_controller.rb) et de notre new.html.erb
-Le contrôleur : 
-Ici on va définir nos méthodes (petit coup de formulaire classique) 
-on définir une méthode 
-new : qui créer un nouveau tweet 
-create : qui crée un nouveau tweet à partir de notre input 
-private : qui défini les params pour le ‘content’
-mise en forme : 
-class TweetsController < ApplicationController
-    def new
-    @tweet = Tweet.new
-  end
-  def create
-    @tweet = Tweet.new(tweet_params)
-    if @tweet.save
-      
-      SendTweet.new("#{@tweet.content}").perform
-      redirect_to root_path 
-    else render 'new'
-    end
-  end
-  private
-    def tweet_params
-      params.permit(:content)
-    end
-end
-5.2 Le visuel (new.html.erb)
-qui inclue les message d’erreur classique 
-et notre formulaire => input + submit
-comme ceci : 
-<h1>Ton Titre mon gros</h1>
-<%= form_tag (tweets_path) do %>
- 
-  <% if @tweet.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@tweet.errors.count, "error") %> prohibited
-        this user from being saved:
-      </h2>
-        <% @tweet.errors.full_messages.each do |msg| %>
-          <p><%= msg %></p>
-        <% end %>
-    </div>
-  <% end %>
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    
-  <p> <%= label_tag 'content', "ton tweet mon petit"  %> </p>
-  <p> <%= text_field_tag(:content) %> </p>
-<p> <%= submit_tag 'Partage avec le monde entier', class: "btn btn-primary"%></p>
-  </div>
-</div>
-<% end %>
-On teste ça à coup de :
-Rails server & localhost:3000
-Voila la ça marche en locale
-
+<br/>
+### 5 Hair au cul
+Il est venu, le temps...de push ça sur heroku !!! Et ouais ma gueule t'as cru qu'on étais des p'tits twittos du dimanche? Bah non on est des gros hackers de ouf t'as vu !!<br/>
+Bon rien de bien ouf, mais ça vaut le coup d'être expliqué:<br/>
+Donc là on est d'accord, ton appli marche sur ton serveur local, parceque comme t'es pas un **noob** t'as rentré tes clefs dans le .env.<br/>
+Mais là ce que tu veux, c'est que d'autres personnes, qui ont pas envie de se faire chier à download, bundle install, db:migrate etc, puissent quand meme envoyer des tweets... Bah qu'est ce qu'on va faire? on va changer les config vars d'Heroku. En gros, on donne nos KEYS à tout le monde sans vraiment les donner. Malin l'abruti non ? Merci la [doc Heroku](https://devcenter.heroku.com/articles/config-vars#setting-up-config-vars-for-a-deployed-application) quand même.<br/>
+Pour cela, petit coup de console:<br/>
+```
+$ cd twittosuce
+$ heroku config:set TWITTER_CONSUMER_KEY= "La" TWITTER_CONSUMER_SECRET= "La" TWITTER_ACCESS_TOKEN= "La" TWITTER_ACCESS_SECRET= "La"
+``` 
+Biensûr, encore un peu de bon sens, faut mettre la clef correspondante pour chaque **"La"**. *Basique*.
+Et voilà, maintenant n'importe quel personne qui a le lien de ton app' peut pourrir ton compte twitter, génial non? *Simple*.
 
