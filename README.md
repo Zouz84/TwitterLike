@@ -26,34 +26,38 @@ resources :tweets (important on sait toujours pas l'expliquer, mais au moins il 
 ### Etape 3 - Services
 On créé un dossier services dans le dossier **app**<br/>
 mkdir app/services<br/>
-dans ce dossier on créer un fichier (en snake_case) ‘send_tweet.rb’ avec:<br/>
-touch app/services/send_tweet.rb<br/>
-dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet** <br/>
+dans ce dossier on créer un fichier 'tweet.rb’ avec:<br/>
+touch app/services/tweet.rb<br/>
+dans ce même fichier on définie une classe appelée : **Tweet** <br/>
 ```ruby
-class SendTweet
-end
+class Tweet
 # on définie ensuite nos méthodes :
-class SendTweet
 
 def initialize
+# qui va effectuer lui même la methode perform.
 end
 
-def perform
-# cette méthode est la méthode d’action elle fera appel à deux méthode l’action en : 1 - se connectant à twitter. 2 - envoyant le tweet
-end
-
-def log_in_to_twitter
+def twitter_connection
 # cette méthode prendra nos clés API pour pouvoir nous connecter
 end
 
-def send_tweet
-# envoie le tweet grace à : client.update)
+def sent_tweet
+# Va rentrer les API de connection à twitter dans une variable 'client'. Afin de pouvoir mettre à jour le profil twitter avec le tweet envoyé.
+end
+
+end
+
+def perform
+# qui contient la def sent_tweet ci-dessus
 end
 end
 ```
 
 #### 3.2 On remplit nos méthodes :<br/>
-initialize : @tweet = content  - notre tweet = notre content (le content à été créé lors du generate modele tweet content:string)
+Disons que nous n'allons pas commencer par le commencement.<br/>
+Tout d'abord on va se lier à twitter en renseignant les API twitter dans la fonction '*twitter_connection*'.<br/>
+
+`@tweet = content`  - notre tweet = notre content (*le content à été créé lors du generate modele tweet content:string*)
 perform : doit se log sur twitter => log_in_to_twitter
         doit envoyer le tweet avec notre contenue dedans => send_tweet(@tweet) (le @tweet reprend le content)
 log_in_to_twitter : reprend les étapes de login du bot twitter et les clés API du fichier .env (que l’on créera après)
