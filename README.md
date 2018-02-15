@@ -31,7 +31,7 @@ touch app/services/send_tweet.rb<br/>
 dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet** <br/>
 ```ruby
 class SendTweet
-end`
+end
 # on définie ensuite nos méthodes :
 class SendTweet
 
@@ -49,7 +49,8 @@ end
 def send_tweet
 # envoie le tweet grace à : client.update)
 end
-end```
+end
+```
 
 #### 3.2 On remplit nos méthodes :<br/>
 initialize : @tweet = content  - notre tweet = notre content (le content à été créé lors du generate modele tweet content:string)
