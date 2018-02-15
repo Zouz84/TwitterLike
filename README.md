@@ -30,8 +30,8 @@ dans ce dossier on créer un fichier (en snake_case) ‘send_tweet.rb’ avec:<b
 touch app/services/send_tweet.rb<br/>
 dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet** <br/>
 ```ruby
-class SendTweet <br/>
-end`<br/>
+class SendTweet
+end`
 #on définie ensuite nos méthodes :<br/> 
 class SendTweet<br/>
 def initialize<br/>
