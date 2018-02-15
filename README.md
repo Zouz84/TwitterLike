@@ -122,7 +122,8 @@ Tu vas ensuite dans le fichier .gitignore et tu ajoute :<br/>
 petit commit des familles: <br/>
 ```git init
 git add .
-git commit -m « first commit »```<br/>
+git commit -m « first commit »
+```
 on crée l’app heroku<br/>
 `heroku create`<br/>
 petit test de contrôle :  tape dans le terminal : <br/>
