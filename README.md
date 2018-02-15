@@ -7,20 +7,18 @@ commandes :
 rails new twittosuce<br/>
 *Change le gem file *<br/>
 Bundle install —without production *(ou bundle update)*<br/>
-rails generate controller home index<br/>
-rails generate controller tweets (au pluriel)<br/>
-rails generate model tweet content:string<br/>
+rails generate controller home index tweet<br/>
 rails db:migrate
 <br/>
 <br/>
 ### Etape 2 - On connecte les fichiers entre eux
-on créer une page new.html.erb dans le dossier tweets<br/>
+on créer une page index.html.erb dans le dossier home<br/>
 à l’aide de la commande :<br/>
-`touch app/views/tweets/new.html.erb` <br/>
-on route ce fichier ‘new.html.erb’ dans notre fichier 'routes.rb'.<br/>
+`touch app/views/home/index.html.erb` <br/>
+on route ce fichier ‘index.html.erb’ dans notre fichier 'routes.rb'.<br/>
 où on ajoute :<br/>
-root ’tweets#new’<br/>
-resources :tweets (important on sait toujours pas l'expliquer, mais au moins il y est !)
+root ’home#index’<br/>
+et "post '/tweet' => 'home#tweet'"
 <br/>
 <br/>
 ### Etape 3 - Services
@@ -56,7 +54,23 @@ end
 #### 3.2 On remplit nos méthodes :<br/>
 Disons que nous n'allons pas commencer par le commencement.<br/>
 Tout d'abord on va se lier à twitter en renseignant les API twitter dans la fonction '*twitter_connection*'.<br/>
-
+<br/>
+Dans le controller 'home' nous allons définir deux variables, '*text*' et '*tweet*'. La première sera une variable permettant un attribut :tweet, la seconde est la variable qui définit une nouvelle instance, un nouveau tweet.<br/>
+A cela apparait un flash de confirmation si la fonction tweet.newa bien été effectuée. Sinon on instaure un modèle de rescue qui indique qu'il y a une erreur, mais qui nous permet de continuer depuis la meme page. Ce qui nous donne:<br/>
+```ruby
+  def tweet
+  	begin 
+			text = params.permit(:tweet)
+			tweet = Tweet.new(text['tweet'])
+			flash[:success] = "Tweet was successfully sent!"
+			redirect_to root_path
+		rescue
+			flash[:danger] = "Tweet was not sent!"
+			redirect_to root_path
+		end
+  end	
+  ```
+  
 `@tweet = content`  - notre tweet = notre content (*le content à été créé lors du generate modele tweet content:string*)
 perform : doit se log sur twitter => log_in_to_twitter
         doit envoyer le tweet avec notre contenue dedans => send_tweet(@tweet) (le @tweet reprend le content)
