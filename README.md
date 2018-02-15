@@ -71,55 +71,65 @@ A cela apparait un flash de confirmation si la fonction tweet.newa bien été ef
   end	
   ```
   
-`@tweet = content`  - notre tweet = notre content (*le content à été créé lors du generate modele tweet content:string*)
-perform : doit se log sur twitter => log_in_to_twitter
-        doit envoyer le tweet avec notre contenue dedans => send_tweet(@tweet) (le @tweet reprend le content)
-log_in_to_twitter : reprend les étapes de login du bot twitter et les clés API du fichier .env (que l’on créera après)
-send_tweet : doit faire l’action d’envoyer le tweet (d’updater tweeter en quelque sorte)
-            => @client.update(tweet) (encore une fois ici tweet est le content => soit ce qui sera entré dans le formulaire)
-cela nous donne ceci : 
-class SendTweet
-def initialize(content)
-@tweet = content
-end 
-def perform
-login_to_twitter
-send_tweet(@tweet)
+En gros, pour faire simple:
+* On créer la methode **twitter_connection** pour se lier à twitter
+* On créer la methode **sent_tweet(tweet)** qui va prendre en compte notre *'tweet'* et donner cette info à twitter.
+* La méthode **perform** "effectue" la méthode *sent_tweet(tweet)*.
+* Enfin la methode **initialize(tweet)** active le tout en appelant *perform*
+
+Ce qui nous donne ceci : 
+```ruby
+class Tweet
+
+	def initialize(tweet)
+		perform(tweet)
+	end
+
+	def twitter_connection
+		Twitter::REST::Client.new do |config|
+		  config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
+		  config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
+		  config.access_token        = ENV['TWITTER_ACCESS_TOKEN']
+		  config.access_token_secret = ENV['TWITTER_ACCESS_SECRET']
+		end
+	end
+
+	def send_tweet(tweet)
+		client = twitter_connection
+		client.update(tweet)
+	end
+
+	def perform(tweet)
+		send_tweet(tweet)
+	end
+
 end
-def log_in_to_twitter
-@client = Twitter::REST::Client.new do |config|
-        config.consumer_key        = ENV['TWITTER_API_KEY']
-        config.consumer_secret     = ENV['TWITTER_API_SECRET']
-        config.access_token        = ENV['TWITTER_TOKEN']
-        config.access_token_secret = ENV['TWITTER_TOKEN_SECRET']
-end
-def send_tweet(tweet)
-        @client.update(tweet)
-    end
-end
-4 - On créer le .env que l’on mettre dans le .gitignore (pour pas balancer nos Clés sur Github)
-touch .env
-Tu met les clés en face des trous
+```
+### 4 Dotenv
+
+On créer le fichier.env que l’on va mettre dans notre dossier racine de l'app, et qui sera également stipulé dans le fichier  .gitignore (pour pas balancer nos Clés sur Github et se faire voler 200€ de caution pardes malotrus. Ah non c'est autre chose ça?).<br/>
+`cd twittosuce`<br/>
+`touch .env`<br/>
+Tu met les clés en face des trous (*toujours! le gauche en premier, toujours!*)<br/>
+```ruby
 TWITTER_API_KEY=" TA CLE ICI "
 TWITTER_API_SECRET=" TA CLE ICI "
 TWITTER_TOKEN=" TA CLE ICI "
 TWITTER_TOKEN_SECRET=" TA CLE ICI "
-tu vas ensuite dans le fichier .gitignore et tu écris :
-.env
-petit commit : 
-git init
+```
+Tu vas ensuite dans le fichier .gitignore et tu ajoute :<br/>
+`.env`<br/>
+petit commit des familles: <br/>
+```git init
 git add .
-git commit -m « first commit »
-on crée l’app heroku
-heroku create
-petit test de contrôle :  
-tape dans le terminal : 
-’rails c’
+git commit -m « first commit »```<br/>
+on crée l’app heroku<br/>
+`heroku create`<br/>
+petit test de contrôle :  tape dans le terminal : <br/>
+`rails c`
 et 
-SendTweet.new("  ecris ce que tu veux ici ").perform
-notes : alors ici si j’ecrvais bonjour monde mon tweet n’apparait pas sur tweeter, cependant en écrivant ‘putana’ ça à marché, ça doit être une question d’humeur… pas trop compris.
-bref ça marche ! 
-5 - Le formulaire 
+`Tweet.new("Salut, toi!").perform`<br/>
+### 5 Le formulaire 
 Ensuite on va donner une interface à notre application, en créant un formulaire (qui va prendre notre ‘content’ et le submit sur twitter) 
 Pour cela on va avoir besoin de note controller (tweet_controller.rb) et de notre new.html.erb
 Le contrôleur : 
