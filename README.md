@@ -32,7 +32,7 @@ dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet*
 ```ruby
 class SendTweet
 end`
-#on définie ensuite nos méthodes :<br/> 
+# on définie ensuite nos méthodes :<br/> 
 class SendTweet<br/>
 def initialize<br/>
 (cette méthode initiera notre tweet)<br/>
