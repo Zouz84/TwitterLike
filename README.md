@@ -32,22 +32,26 @@ dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet*
 ```ruby
 class SendTweet
 end`
-# on définie ensuite nos méthodes :<br/> 
-class SendTweet<br/>
-def initialize<br/>
-(cette méthode initiera notre tweet)<br/>
-end<br/>
-def perform<br/>
-#cette méthode est la méthode d’action elle fera appel à deux méthode l’action en : 1 - se connectant à twitter. 2 - envoyer le tweet
-end<br/>
-def log_in_to_twitter<br/>
-(cate méthode prendra nos clés API pour pouvoir nous connecter)<br/>
-end<br/>
-def send_tweet<br/>
-(cette méthode envoie le tweet grace à : client.update)<br/>
+# on définie ensuite nos méthodes :
+class SendTweet
+
+def initialize
+end
+
+def perform
+# cette méthode est la méthode d’action elle fera appel à deux méthode l’action en : 1 - se connectant à twitter. 2 - envoyant le tweet
+end
+
+def log_in_to_twitter
+# cette méthode prendra nos clés API pour pouvoir nous connecter
+end
+
+def send_tweet
+# envoie le tweet grace à : client.update)
 end
 end```
-3.2 On remplit nos méthodes :
+
+#### 3.2 On remplit nos méthodes :<br/>
 initialize : @tweet = content  - notre tweet = notre content (le content à été créé lors du generate modele tweet content:string)
 perform : doit se log sur twitter => log_in_to_twitter
         doit envoyer le tweet avec notre contenue dedans => send_tweet(@tweet) (le @tweet reprend le content)
