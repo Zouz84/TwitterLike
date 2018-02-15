@@ -16,7 +16,7 @@ rails db:migrate
 ### Etape 2 - On connecte les fichiers entre eux
 on créer une page new.html.erb dans le dossier tweets<br/>
 à l’aide de la commande :<br/>
-`touch app/views/tweets/new.html.erb`
+`touch app/views/tweets/new.html.erb` <br/>
 on route ce fichier ‘new.html.erb’ dans notre fichier 'routes.rb'.<br/>
 où on ajoute :<br/>
 root ’tweets#new’<br/>
@@ -29,15 +29,16 @@ mkdir app/services<br/>
 dans ce dossier on créer un fichier (en snake_case) ‘send_tweet.rb’ avec:<br/>
 touch app/services/send_tweet.rb<br/>
 dans ce même fichier on définie une classe (CamelCase) appelée : **SendTweet** <br/>
-`class SendTweet
+```ruby
+class SendTweet <br/>
 end`<br/>
-on définie ensuite nos méthodes :<br/> 
+#on définie ensuite nos méthodes :<br/> 
 class SendTweet<br/>
 def initialize<br/>
 (cette méthode initiera notre tweet)<br/>
 end<br/>
 def perform<br/>
-(cette méthode est la méthode d’action ell fera appel à deux méthode l’action en : 1 - se connectant à twitter. 2 - envoyer le tweet)
+#cette méthode est la méthode d’action elle fera appel à deux méthode l’action en : 1 - se connectant à twitter. 2 - envoyer le tweet
 end<br/>
 def log_in_to_twitter<br/>
 (cate méthode prendra nos clés API pour pouvoir nous connecter)<br/>
@@ -45,7 +46,7 @@ end<br/>
 def send_tweet<br/>
 (cette méthode envoie le tweet grace à : client.update)<br/>
 end
-end
+end```
 3.2 On remplit nos méthodes :
 initialize : @tweet = content  - notre tweet = notre content (le content à été créé lors du generate modele tweet content:string)
 perform : doit se log sur twitter => log_in_to_twitter
