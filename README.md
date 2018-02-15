@@ -141,6 +141,6 @@ Pour cela, petit coup de console:<br/>
 $ cd twittosuce
 $ heroku config:set TWITTER_CONSUMER_KEY= "La" TWITTER_CONSUMER_SECRET= "La" TWITTER_ACCESS_TOKEN= "La" TWITTER_ACCESS_SECRET= "La"
 ``` 
-Biensûr, encore un peu de bon sens, faut mettre la clef correspondante pour chaque **"La"**. *Basique*.
+Biensûr, encore un peu de bon sens, faut mettre la clef correspondante pour chaque **"La"**. *Basique*.<br/>
 Et voilà, maintenant n'importe quel personne qui a le lien de ton app' peut pourrir ton compte twitter, génial non? *Simple*.
 
